@@ -14,16 +14,12 @@ interface UserAnswers {
     [key: string]: string;
 }
 
-
-const Page = () => {
+const Page = () => { // Component name starts with uppercase letter
     const [showResults, setShowResults] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
+    const [timeLeft, setTimeLeft] = useState(600);
     const [userAnswers, setUserAnswers] = useState<UserAnswers>({});
     const [score, setScore] = useState(0);
     const [currentSection, setCurrentSection] = useState<string | null>(null);
-    const [activeGroupIndex, setActiveGroupIndex] = useState(0);
-
-
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -36,7 +32,6 @@ const Page = () => {
             });
         }, 1000);
 
-        // Set initial section
         if (questions.length > 0) {
             const uniqueGroups = getUniqueGroups();
             setCurrentSection(uniqueGroups[0]);
@@ -355,9 +350,8 @@ const Page = () => {
         return Math.round((answeredCount / questions.length) * 100);
     };
 
-    const handleSectionChange = (section: string, index: number) => {
+    const handleSectionChange = (section: string) => { // Removed unused index parameter
         setCurrentSection(section);
-        setActiveGroupIndex(index);
     };
 
     const handleAnswerChange = (questionId: string, answer: string) => {
@@ -463,7 +457,7 @@ const Page = () => {
                                 return (
                                     <button
                                         key={group}
-                                        onClick={() => handleSectionChange(group, idx)}
+                                        onClick={() => handleSectionChange(group)} // Removed index parameter
                                         className={`flex-shrink-0 px-4 py-2 rounded-lg transition-colors ${currentSection === group
                                             ? 'bg-orange-600 text-white'
                                             : 'bg-white text-gray-700 hover:bg-orange-100'
@@ -531,7 +525,7 @@ const Page = () => {
                                 <div className="mt-8 flex flex-wrap gap-4 justify-between">
                                     {groupIndex > 0 && (
                                         <button
-                                            onClick={() => handleSectionChange(uniqueGroups[groupIndex - 1], groupIndex - 1)}
+                                            onClick={() => handleSectionChange(uniqueGroups[groupIndex - 1])} // Removed index
                                             className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
                                         >
                                             Previous Section
@@ -540,7 +534,7 @@ const Page = () => {
 
                                     {groupIndex < uniqueGroups.length - 1 ? (
                                         <button
-                                            onClick={() => handleSectionChange(uniqueGroups[groupIndex + 1], groupIndex + 1)}
+                                            onClick={() => handleSectionChange(uniqueGroups[groupIndex + 1])} // Removed index
                                             className="ml-auto px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
                                         >
                                             Next Section
