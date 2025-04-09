@@ -83,10 +83,3 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Add other HTTP methods if needed
-export async function GET() {
-  return NextResponse.json<ResponseData>(
-    { message: 'Method not allowed' },
-    { status: 405 }
-  );
-}
