@@ -31,7 +31,7 @@ const About = () => {
                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-orange-100 rounded-full"></div>
                         <div className="absolute top-1/3 left-1/3 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-blue-100 rounded-full"></div>
 
-                        <div className="relative bg-white p-8 shadow-xl rounded-xl max-w-sm mx-auto">
+                        <div className="relative bg-white p-8 shadow-xl rounded-xl max-w-sm mx-auto hover:translate-y-1 duration-150">
                             <h3 className="text-2xl font-bold text-orange-500 mb-3">Est. 2024</h3>
                             <p className="text-gray-600 italic">
                                 Innovation distinguishes between a leader and a follower.
