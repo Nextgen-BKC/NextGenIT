@@ -74,7 +74,7 @@ const Navbar = () => {
                             </button>
                             <button
                                 onClick={toggleMenu}
-                                className="px-2 text-gray-600 hover:text-orange-500"
+                                className="px-2 mr-2 text-gray-600 hover:text-orange-500"
                                 aria-label="Toggle menu"
                             >
                                 <Menu size={24} />

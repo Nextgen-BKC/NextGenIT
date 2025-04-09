@@ -17,11 +17,12 @@ const Message = () => {
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     const [messages, setMessages] = useState<MessageType[]>([
-        { id: 1, sender: { id: 2, name: "Alex Morgan", avatar: "/api/placeholder/40/40" }, text: "Hey there! How's the project coming along?", time: "10:23 AM", isMe: false },
-        { id: 2, sender: { id: "me", name: "You", avatar: "/api/placeholder/40/40" }, text: "It's going well! I've completed the initial designs.", time: "10:25 AM", isMe: true },
-        { id: 3, sender: { id: 2, name: "Alex Morgan", avatar: "/api/placeholder/40/40" }, text: "That's great news! Can you share them with the team?", time: "10:26 AM", isMe: false },
-        { id: 4, sender: { id: "me", name: "You", avatar: "/api/placeholder/40/40" }, text: "Sure thing. I'll upload them to our shared drive and notify everyone.", time: "10:28 AM", isMe: true },
-        { id: 5, sender: { id: 2, name: "Alex Morgan", avatar: "/api/placeholder/40/40" }, text: "Perfect! Looking forward to seeing what you've created.", time: "10:30 AM", isMe: false },
+        { id: 1, sender: { id: 2, name: "Alex Morgan", avatar: "/api/placeholder/40/40" }, text: "Hey! How's everything going with the project?", time: "10:23 AM", isMe: false },
+        { id: 2, sender: { id: "me", name: "You", avatar: "/api/placeholder/40/40" }, text: "It's going great! I've finished the initial designs.", time: "10:25 AM", isMe: true },
+        { id: 3, sender: { id: 2, name: "Alex Morgan", avatar: "/api/placeholder/40/40" }, text: "Awesome! Can you share them with the team?", time: "10:26 AM", isMe: false },
+        { id: 4, sender: { id: "me", name: "You", avatar: "/api/placeholder/40/40" }, text: "I'll upload them to the shared drive and let everyone know.", time: "10:28 AM", isMe: true },
+        { id: 5, sender: { id: 2, name: "Alex Morgan", avatar: "/api/placeholder/40/40" }, text: "Looking forward to seeing your work!", time: "10:30 AM", isMe: false },
+        { id: 6, sender: { id: "me", name: "You", avatar: "/api/placeholder/40/40" }, text: "By the way, have you ever been to Butwal Kalika Campus? It's a great place for learning and has an awesome community!", time: "10:35 AM", isMe: true },
     ]);
 
     useEffect(() => {
@@ -39,7 +40,6 @@ const Message = () => {
                                     <div className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg shadow-sm text-sm sm:text-base ${message.isMe ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-800"}`}>
                                         <p>{message.text}</p>
                                     </div>
-                                    <span className="text-xs text-gray-500 mt-1">{message.time}</span>
                                 </div>
                             </div>
                         </div>
