@@ -29,30 +29,31 @@ const Message = () => {
     }, [messages]);
 
     return (
-        <div className="flex bg-transparent items-center justify-center">
-            <div className="w-full max-w-md p-6 space-y-6 rounded-lg shadow-lg bg-white">
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[400px]">
+        <div className="flex bg-transparent items-center justify-center p-2 sm:p-4">
+            <div className="w-full max-w-2xl p-4 sm:p-6 space-y-4 sm:space-y-6 rounded-lg shadow-lg bg-white">
+                <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 max-h-[50vh] sm:max-h-[400px]">
                     {messages.map((message) => (
                         <div key={message.id} className={`flex ${message.isMe ? "justify-end" : "justify-start"}`}>
-                            <div className={`flex ${message.isMe ? "flex-row-reverse" : "flex-row"} max-w-xs md:max-w-md`}>
-                                <div className={`flex flex-col mx-2 ${message.isMe ? "items-end" : "items-start"}`}>
-                                    <div className={`px-4 py-2 rounded-lg shadow-sm ${message.isMe ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-800"}`}>
-                                        <p className="text-sm">{message.text}</p>
+                            <div className={`flex ${message.isMe ? "flex-row-reverse" : "flex-row"} max-w-[90%] sm:max-w-md`}>
+                                <div className={`flex flex-col mx-1 sm:mx-2 ${message.isMe ? "items-end" : "items-start"}`}>
+                                    <div className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg shadow-sm text-sm sm:text-base ${message.isMe ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-800"}`}>
+                                        <p>{message.text}</p>
                                     </div>
+                                    <span className="text-xs text-gray-500 mt-1">{message.time}</span>
                                 </div>
                             </div>
                         </div>
                     ))}
                     <div ref={messagesEndRef} />
                 </div>
-                <div className="bg-white border-t p-4 rounded-b-lg">
-                    <div className="flex items-center">
+                <div className="bg-white border-t p-2 sm:p-4 rounded-b-lg">
+                    <div className="flex items-center gap-2">
                         <input
                             type="text"
-                            placeholder="Ask anything about us..."
-                            className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400"
+                            placeholder="Ask anything..."
+                            className="flex-1 px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400"
                         />
-                        <button className="ml-2 p-2 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 text-white hover:from-orange-500 hover:to-orange-600">
+                        <button className="p-2 sm:p-2.5 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 text-white hover:from-orange-500 hover:to-orange-600 flex-shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
                             </svg>

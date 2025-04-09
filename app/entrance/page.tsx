@@ -15,7 +15,7 @@ interface UserAnswers {
 }
 
 
-const page = () => {
+const Page = () => {
     const [showResults, setShowResults] = useState(false);
     const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
     const [userAnswers, setUserAnswers] = useState<UserAnswers>({});
@@ -564,4 +564,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;
