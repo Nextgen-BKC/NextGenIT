@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Footer = () => {
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -67,6 +68,13 @@ const Footer = () => {
                 <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-gray-500">&copy; {currentYear} NextGen Innovator Club. All rights reserved.</p>
                     <p className="text-gray-500">Established 2024 at Butwal Kalika Campus</p>
+                    <div className="links flex gap-4">
+
+                        <Link href="https://github.com/bimal009" className="text-gray-400 hover:text-white transition-colors duration-200">Bimal Pandey</Link>
+                        <Link href="https://github.com/Aashish-Chapagain" className="text-gray-400 hover:text-white transition-colors duration-200">Aashish Chapagain</Link>
+                        <Link href="https://github.com/ANMOL-CHHETRI" className="text-gray-400 hover:text-white transition-colors duration-200">Anmol Chettri</Link>
+                        <Link href="https://github.com/sikharsp" className="text-gray-400 hover:text-white transition-colors duration-200">Sikhar Panthi</Link>
+                    </div>
                 </div>
             </div>
         </footer>

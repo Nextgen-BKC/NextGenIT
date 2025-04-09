@@ -30,7 +30,7 @@ const Message = () => {
     }, [messages]);
 
     return (
-        <div className="flex bg-transparent items-center justify-center p-2 sm:p-4">
+        <div className="flex bg-transparent items-center justify-center">
             <div className="w-full max-w-2xl p-4 sm:p-6 space-y-4 sm:space-y-6 rounded-lg shadow-lg bg-white">
                 <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 max-h-[50vh] sm:max-h-[400px]">
                     {messages.map((message) => (

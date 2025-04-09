@@ -43,7 +43,7 @@ const Navbar = () => {
 
             {/* Chat Box */}
             {chatbox && (
-                <div className="fixed top-20 right-10 md:right-10 z-[60] w-[90vw] md:w-96 transition-all duration-300 animate-slide-in">
+                <div className="fixed top-20 right-4 md:right-10 z-[60] w-[90vw] max-w-md md:w-96 transition-all duration-300 animate-slide-in">
                     <Message />
                 </div>
             )}
@@ -52,18 +52,15 @@ const Navbar = () => {
                 <div className="flex items-center justify-between">
                     {/* Logo Section */}
                     <div className="flex items-center gap-3">
-                        <img src="/logo.png" alt="Club Logo" className="h-12 w-12 object-contain" />
-                        <div>
-                            <h1 className="text-lg font-bold text-gray-800">NextGen Innovator Club</h1>
-                            <p className="text-sm text-gray-600">Butwal Kalika Campus</p>
+                        <img src="/logo.png" alt="Club Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
+                        <div className="hidden sm:block">
+                            <h1 className="text-sm md:text-lg font-bold text-gray-800">NextGen Innovator Club</h1>
+                            <p className="text-xs md:text-sm text-gray-600">Butwal Kalika Campus</p>
                         </div>
                     </div>
 
                     {/* Right Section */}
                     <div className="flex items-center gap-4 md:gap-6">
-                        {/* Desktop Chat Icon */}
-
-
                         {/* Mobile Icons */}
                         <div className="md:hidden flex items-center gap-2">
                             <button
@@ -84,16 +81,16 @@ const Navbar = () => {
                         {/* Navigation Links */}
                         <div className={`absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none transition-all duration-300 ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
                             <div className="flex flex-col md:flex-row items-start md:items-center py-4 md:py-0 px-4 md:px-0 space-y-4 md:space-y-0 md:space-x-6">
-                                <Link href="#about" onClick={closeMenu} className="nav-link">
+                                <Link href="#about" onClick={closeMenu} className="nav-link w-full md:w-auto text-left md:text-center">
                                     About
                                 </Link>
-                                <Link href="#events" onClick={closeMenu} className="nav-link">
+                                <Link href="#events" onClick={closeMenu} className="nav-link w-full md:w-auto text-left md:text-center">
                                     Events
                                 </Link>
-                                <Link href="#contact" onClick={closeMenu} className="nav-link">
+                                <Link href="#contact" onClick={closeMenu} className="nav-link w-full md:w-auto text-left md:text-center">
                                     Contact
                                 </Link>
-                                <Link href="#member" onClick={closeMenu} className="nav-link">
+                                <Link href="#member" onClick={closeMenu} className="nav-link w-full md:w-auto text-left md:text-center">
                                     Members
                                 </Link>
 
@@ -106,12 +103,10 @@ const Navbar = () => {
                                 <Link
                                     href="/entrance"
                                     onClick={closeMenu}
-                                    className="nav-link bg-orange-500 text-white hover:bg-orange-600 px-4 py-2 rounded-md"
+                                    className="w-full md:w-auto nav-link bg-orange-500 text-white hover:bg-orange-600 px-4 py-2 rounded-md text-center"
                                 >
                                     Entrance
                                 </Link>
-
-
                             </div>
                         </div>
                     </div>
