@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import User from '@/models/userModel';
 import dbConnect from '@/lib/dbCon';
 
+
 interface LoginData {
   email: string;
   password: string;
