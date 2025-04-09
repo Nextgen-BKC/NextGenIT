@@ -81,16 +81,16 @@ const Navbar = () => {
                         {/* Navigation Links */}
                         <div className={`absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none transition-all duration-300 ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
                             <div className="flex flex-col md:flex-row items-start md:items-center py-4 md:py-0 px-4 md:px-0 space-y-4 md:space-y-0 md:space-x-6">
-                                <Link href="#about" onClick={closeMenu} className="nav-link w-full md:w-auto text-left md:text-center">
+                                <Link href="#about" onClick={closeMenu} className="nav-link   w-full md:w-auto text-left md:text-center">
                                     About
                                 </Link>
-                                <Link href="#events" onClick={closeMenu} className="nav-link w-full md:w-auto text-left md:text-center">
+                                <Link href="#events" onClick={closeMenu} className="nav-link   w-full md:w-auto text-left md:text-center">
                                     Events
                                 </Link>
-                                <Link href="#contact" onClick={closeMenu} className="nav-link w-full md:w-auto text-left md:text-center">
+                                <Link href="#contact" onClick={closeMenu} className="nav-link   w-full md:w-auto text-left md:text-center">
                                     Contact
                                 </Link>
-                                <Link href="#member" onClick={closeMenu} className="nav-link w-full md:w-auto text-left md:text-center">
+                                <Link href="#member" onClick={closeMenu} className="nav-link   w-full md:w-auto text-left md:text-center">
                                     Members
                                 </Link>
 
