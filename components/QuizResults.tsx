@@ -1,11 +1,21 @@
-import React from 'react'
-import { Brain, CircleCheckBig, Question } from 'lucide-react';
+import React from 'react';
+import { Brain, CircleCheckBig } from 'lucide-react';
 
+type QuestionType = {
+    question: string;
+    options: string[];
+    answer: string;
+};
 
+type QuizResultsProps = {
+    questions: QuestionType[];
+    userAnswers: Record<string, string>;
+    score: number;
+    restartQuiz: () => void;
+};
 
-const QuizResults = ({ questions, userAnswers, score, restartQuiz }: any) => {
+const QuizResults: React.FC<QuizResultsProps> = ({ questions, userAnswers, score, restartQuiz }) => {
     return (
-
         <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100 p-4">
             <div className="max-w-6xl mx-auto">
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-orange-200">
@@ -28,7 +38,7 @@ const QuizResults = ({ questions, userAnswers, score, restartQuiz }: any) => {
                     {/* Results Content */}
                     <div className="p-6">
                         <div className="space-y-6">
-                            {questions.map((q: Question, idx: number) => {
+                            {questions.map((q, idx) => {
                                 const userAnswer = userAnswers[`q${idx}`];
                                 const isCorrect = userAnswer === q.answer;
 
@@ -36,8 +46,10 @@ const QuizResults = ({ questions, userAnswers, score, restartQuiz }: any) => {
                                     <div key={idx} className="border rounded-lg overflow-hidden bg-white">
                                         <div className="p-6">
                                             <div className="flex items-start gap-3 mb-4">
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isCorrect ? 'bg-green-500' : 'bg-red-500'
-                                                    }`}>
+                                                <div
+                                                    className={`w-8 h-8 rounded-full flex items-center justify-center ${isCorrect ? 'bg-green-500' : 'bg-red-500'
+                                                        }`}
+                                                >
                                                     <span className="text-white font-medium text-sm">{idx + 1}</span>
                                                 </div>
                                                 <h3 className="font-medium text-gray-800">{q.question}</h3>
@@ -45,18 +57,12 @@ const QuizResults = ({ questions, userAnswers, score, restartQuiz }: any) => {
 
                                             <div className="ml-12 space-y-2">
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-green-600 font-medium">
-                                                        Correct Answer:
-                                                    </span>
-                                                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-md">
-                                                        {q.answer}
-                                                    </span>
+                                                    <span className="text-green-600 font-medium">Correct Answer:</span>
+                                                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-md">{q.answer}</span>
                                                 </div>
                                                 {!isCorrect && (
                                                     <div className="flex items-center gap-2">
-                                                        <span className="text-red-600 font-medium">
-                                                            Your Answer:
-                                                        </span>
+                                                        <span className="text-red-600 font-medium">Your Answer:</span>
                                                         <span className="bg-red-100 text-red-800 px-3 py-1 rounded-md">
                                                             {userAnswer || 'Not answered'}
                                                         </span>
@@ -86,6 +92,4 @@ const QuizResults = ({ questions, userAnswers, score, restartQuiz }: any) => {
     );
 };
 
-
-
-export default QuizResults
+export default QuizResults;

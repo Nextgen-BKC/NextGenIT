@@ -34,7 +34,7 @@ const About = () => {
                         <div className="relative bg-white p-8 shadow-xl rounded-xl max-w-sm mx-auto">
                             <h3 className="text-2xl font-bold text-orange-500 mb-3">Est. 2024</h3>
                             <p className="text-gray-600 italic">
-                                "Innovation distinguishes between a leader and a follower."
+                                Innovation distinguishes between a leader and a follower.
                             </p>
                         </div>
                     </div>

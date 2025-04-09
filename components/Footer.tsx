@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {
