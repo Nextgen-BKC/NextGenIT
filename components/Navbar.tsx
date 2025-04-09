@@ -65,16 +65,16 @@ const Navbar = () => {
 
 
                         {/* Mobile Icons */}
-                        <div className="md:hidden flex items-center gap-4">
+                        <div className="md:hidden flex items-center gap-2">
                             <button
                                 onClick={() => setChatbox(!chatbox)}
-                                className={`p-2 text-gray-600 hover:text-orange-500 ${isWiggling ? 'animate-wiggle' : ''}`}
+                                className={`px-2 text-gray-600 hover:text-orange-500 ${isWiggling ? 'animate-wiggle' : ''}`}
                             >
                                 <MessageSquareMore size={24} />
                             </button>
                             <button
                                 onClick={toggleMenu}
-                                className="p-2 text-gray-600 hover:text-orange-500"
+                                className="px-2 text-gray-600 hover:text-orange-500"
                                 aria-label="Toggle menu"
                             >
                                 <Menu size={24} />
