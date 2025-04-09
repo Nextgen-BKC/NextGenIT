@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import Image from 'next/image';
 
 const Footer = () => {
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -10,8 +11,15 @@ const Footer = () => {
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
                     <div className="space-y-4">
+
                         <div className="flex items-center gap-3 mb-4">
-                            <img src="/logo.png" alt="NextGen Innovator Club Logo" className="h-12 w-12" />
+                            <Image
+                                src="/logo.png"
+                                alt="NextGen Innovator Club Logo"
+                                width={200}
+                                height={200}
+                                className="h-12 w-12 rounded-full object-cover"
+                            />
                             <h3 className="text-xl font-bold">NextGen Innovator Club</h3>
                         </div>
                         <p className="text-gray-400">
