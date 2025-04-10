@@ -23,8 +23,6 @@ interface ResponseData {
 export async function POST(req: NextRequest) {
   try {
     await dbConnect();
-
-    // Parse request body
     const { email, password }: LoginData = await req.json();
 
     // Validate input
@@ -44,7 +42,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Compare passwords
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return NextResponse.json<ResponseData>(

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
+import AdminProvider from "@/context/adminContext";
 
 
 export const metadata: Metadata = {
@@ -16,8 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Toaster position="bottom-center" />
-        {children}
+        <AdminProvider>
+
+          <Toaster position="bottom-center" />
+          {children}
+        </AdminProvider>
 
       </body>
     </html>

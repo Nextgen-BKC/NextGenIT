@@ -1,6 +1,7 @@
 import mongoose, { Schema, models, model } from 'mongoose';
 
 const MemberSchema = new Schema({
+    id: { type: Number, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     phone: { type: String },

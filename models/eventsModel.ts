@@ -1,11 +1,59 @@
-import mongoose, { Schema, models, model } from 'mongoose';
+import mongoose, { Schema, Model, Document } from 'mongoose';
 
-const EventSchema = new Schema({
-    title: { type: String, required: true },
-    description: { type: String },
-    date: { type: Date, required: true },
-    location: { type: String },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
-}, { timestamps: true });
+// Interface for the event properties (no _id here)
+interface IEvent {
+  title: string;
+  description?: string;
+  date: Date;
+  location?: string;
+  eventImage?: string;
+}
 
-export default models.Event || model('Event', EventSchema);
+// Interface combining IEvent with Mongoose Document
+interface IEventDocument extends IEvent, Document {
+  _id: string; // This will be stringified via toJSON transform
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Schema definition
+const EventSchema = new Schema<IEventDocument>(
+  {
+    title: { 
+      type: String, 
+      required: [true, 'Title is required'] 
+    },
+    description: { 
+      type: String 
+    },
+    date: { 
+      type: Date,
+      required: [true, 'Date is required'] 
+    },
+    location: { 
+      type: String 
+    },
+    eventImage: { 
+      type: String,
+      default: ''
+    }
+  }, 
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (_doc, ret) => {
+        ret._id = ret._id.toString();
+        return ret;
+      }
+    }
+  }
+);
+
+// Type for Model
+type EventModel = Model<IEventDocument>;
+
+// Model creation/retrieval
+const Event: EventModel = mongoose.models.Event || mongoose.model<IEventDocument>('Event', EventSchema);
+
+export default Event;
