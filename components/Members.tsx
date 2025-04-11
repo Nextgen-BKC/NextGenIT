@@ -69,24 +69,6 @@ const Members = () => {
         fetchMembers();
     }, []);
 
-    const fallbackMembers = [
-        {
-            _id: '1',
-            name: "John Doe",
-            email: "john.doe@example.com",
-            userImage: "/default-member.png"
-        },
-        {
-            _id: '2',
-            name: "Jane Smith",
-            email: "jane.smith@example.com",
-            userImage: "/default-member.png"
-        },
-        // ... keep other fallback members as needed
-    ];
-
-    const displayMembers = members.length > 0 ? members : fallbackMembers;
-
     return (
         <section id="members" className="py-16 md:py-24 bg-gradient-to-b from-white to-orange-50">
             <div className="container mx-auto px-4">
@@ -113,9 +95,9 @@ const Members = () => {
                     </div>
                 )}
 
-                {!loading && !error && (
+                {!loading && !error && members.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-                        {displayMembers.map((member) => (
+                        {members.map((member) => (
                             <MemberCard
                                 key={member._id}
                                 image={member.userImage}
@@ -124,7 +106,11 @@ const Members = () => {
                             />
                         ))}
                     </div>
-                )}
+                ) : (!loading && !error && (
+                    <div className="text-center py-10">
+                        <p className="text-gray-500">No team members found.</p>
+                    </div>
+                ))}
             </div>
         </section>
     );

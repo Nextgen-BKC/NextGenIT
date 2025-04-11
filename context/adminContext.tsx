@@ -159,7 +159,6 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 await fetchMembers();
             }
 
-            toast.success('Member added successfully');
             return data;
         } catch (err) {
             toast.error(handleError(err));
@@ -185,7 +184,6 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 prev.map(m => m._id === id ? { ...m, ...member } : m)
             );
 
-            toast.success('Member updated successfully');
             return data;
         } catch (err) {
             toast.error(handleError(err));
@@ -206,7 +204,6 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
             }
 
             setMembers(prev => prev.filter(m => m._id !== id));
-            toast.success('Member deleted successfully');
             return data;
         } catch (err) {
             toast.error(handleError(err));
@@ -230,7 +227,6 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
 
             if (result && result.data && result.data._id) {
                 setEvents(prev => [...prev, { ...result.data }]);
-                toast.success('Event added successfully');
             } else {
                 await fetchEvents();
                 toast.success('Event added');
@@ -258,7 +254,6 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
             setEvents(prev =>
                 prev.map(e => e._id === id ? { ...e, ...event } : e)
             );
-            toast.success('Event updated successfully');
         } catch (err) {
             toast.error(handleError(err));
             throw err;
@@ -278,7 +273,6 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
             }
 
             setEvents(prev => prev.filter(e => e._id !== id));
-            toast.success('Event deleted successfully');
         } catch (err) {
             toast.error(handleError(err));
             throw err;

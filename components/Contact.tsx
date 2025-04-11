@@ -1,7 +1,8 @@
 "use client"
-import { useState } from 'react';
+import { useState, useRef, FormEvent, ChangeEvent } from 'react';
 import { Phone, Mail, Facebook, MapPin } from 'lucide-react';
 import toast from 'react-hot-toast';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -10,13 +11,15 @@ const Contact = () => {
         subject: '',
         message: ''
     });
+    const [loading, setLoading] = useState(false);
+    const formRef = useRef<HTMLFormElement>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { id, value } = e.target;
         setFormData(prev => ({ ...prev, [id]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Form validation
         if (!formData.name || !formData.email || !formData.subject || !formData.message) {
@@ -31,19 +34,43 @@ const Contact = () => {
             return;
         }
 
-        // In a real application, you would send the form data to a server here
-        console.log('Form submitted:', formData);
+        try {
+            setLoading(true);
 
-        // Reset form
-        setFormData({ name: '', email: '', subject: '', message: '' });
+            // Replace these with your actual EmailJS service ID, template ID, and public key
+            const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+            const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
-        // Show success message
-        toast.success('Message sent successfully! We will get back to you soon.', {
-            iconTheme: {
-                primary: '#FF6900',
-                secondary: '#fff'
+            if (!serviceId || !templateId || !publicKey) {
+                throw new Error('EmailJS configuration is missing');
             }
-        });
+
+            if (formRef.current) {
+                await emailjs.sendForm(
+                    serviceId,
+                    templateId,
+                    formRef.current,
+                    publicKey
+                );
+            }
+
+            // Reset form
+            setFormData({ name: '', email: '', subject: '', message: '' });
+
+            // Show success message
+            toast.success('Message sent successfully! We will get back to you soon.', {
+                iconTheme: {
+                    primary: '#FF6900',
+                    secondary: '#fff'
+                }
+            });
+        } catch (error) {
+            console.error('Email sending failed:', error);
+            toast.error('Failed to send message. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -92,7 +119,7 @@ const Contact = () => {
 
                     {/* Contact Form Section */}
                     <div className="flex-1">
-                        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+                        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                             <div>
                                 <label htmlFor="name" className="block text-sm md:text-base text-gray-700 font-medium mb-2">
                                     Your Name
@@ -100,6 +127,7 @@ const Contact = () => {
                                 <input
                                     type="text"
                                     id="name"
+                                    name="user_name"
                                     value={formData.name}
                                     onChange={handleChange}
                                     placeholder="Enter your name"
@@ -114,6 +142,7 @@ const Contact = () => {
                                 <input
                                     type="email"
                                     id="email"
+                                    name="user_email"
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="Enter your email"
@@ -128,6 +157,7 @@ const Contact = () => {
                                 <input
                                     type="text"
                                     id="subject"
+                                    name="subject"
                                     value={formData.subject}
                                     onChange={handleChange}
                                     placeholder="Enter subject"
@@ -141,6 +171,7 @@ const Contact = () => {
                                 </label>
                                 <textarea
                                     id="message"
+                                    name="message"
                                     value={formData.message}
                                     onChange={handleChange}
                                     placeholder="Type your message here"
@@ -151,9 +182,10 @@ const Contact = () => {
 
                             <button
                                 type="submit"
-                                className="w-full bg-orange-600 text-white py-2 md:py-3 rounded-lg hover:bg-orange-700 transition-colors duration-200 text-sm md:text-base font-medium focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                                disabled={loading}
+                                className="w-full bg-orange-600 text-white py-2 md:py-3 rounded-lg hover:bg-orange-700 transition-colors duration-200 text-sm md:text-base font-medium focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:bg-orange-400"
                             >
-                                Send Message
+                                {loading ? 'Sending...' : 'Send Message'}
                             </button>
                         </form>
                     </div>

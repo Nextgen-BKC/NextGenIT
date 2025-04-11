@@ -1,20 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, } from 'react';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 import { useAdmin } from '@/context/adminContext';
 
-interface EventData {
-    _id: string;
-    title: string;
-    date: string;
-    time: string;
-    location: string;
-    eventImage: string;
-    description: string;
-}
+
 
 interface EventCardProps {
     image: string;
@@ -88,43 +80,10 @@ const EventCard: React.FC<EventCardProps> = ({
 
 const Events = () => {
     const { events, loading, error, fetchEvents } = useAdmin();
-    const [displayEvents, setDisplayEvents] = useState<EventData[]>([]);
-
-
-    const fallbackEvents = useMemo(() => [
-        {
-            _id: '1',
-            title: "CODING COMPETITION",
-            date: "2024-03-11T00:00:00.000Z",
-            time: "7:00 AM - 10:00 PM",
-            location: "Computer Lab, BKC",
-            eventImage: "/CODING.jpg",
-            description: "Competitive coding event"
-        },
-        {
-            _id: '2',
-            title: "SKILL TEST COMPETITION",
-            date: "2024-03-05T00:00:00.000Z",
-            time: "7:00 AM - 10:00 PM",
-            location: "Computer Lab, BKC",
-            eventImage: "/SKILL.jpg",
-            description: "Test your skills"
-        }
-    ], []);
-
 
     useEffect(() => {
         fetchEvents();
     }, [fetchEvents]);
-
-    useEffect(() => {
-
-        if (!loading.events && events.length > 0) {
-            setDisplayEvents(events);
-        } else if (!loading.events && (events.length === 0 || error.events)) {
-            setDisplayEvents(fallbackEvents);
-        }
-    }, [events, loading.events, error.events, fallbackEvents]);
 
     // Format the date from ISO string to readable format
     const formatDate = (dateString: string) => {
@@ -170,19 +129,21 @@ const Events = () => {
 
                 {loading.events && (
                     <div className="text-center py-10">
-                        <p className="text-gray-500">Loading events...</p>
+                        <div className="inline-block w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-gray-500 mt-4">Loading events...</p>
                     </div>
                 )}
 
                 {error.events && (
-                    <div className="text-center py-10">
-                        <p className="text-red-500">Error: {error.events}</p>
+                    <div className="text-center py-10 px-4 mx-auto max-w-md bg-red-50 rounded-lg">
+                        <div className="text-red-500 text-5xl mb-4">⚠️</div>
+                        <p className="text-red-500 font-medium">Error: {error.events}</p>
                     </div>
                 )}
 
-                {!loading.events && (
+                {!loading.events && !error.events && events.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {displayEvents.map((event) => (
+                        {events.map((event) => (
                             <EventCard
                                 key={event._id}
                                 image={event.eventImage}
@@ -194,16 +155,22 @@ const Events = () => {
                             />
                         ))}
                     </div>
-                )}
+                ) : (!loading.events && !error.events && (
+                    <div className="text-center py-10">
+                        <p className="text-gray-500">No events found.</p>
+                    </div>
+                ))}
 
-                <div className="text-center mt-12">
-                    <button
-                        onClick={handleViewAll}
-                        className="px-8 py-3 border-2 border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-colors duration-200"
-                    >
-                        View All Events
-                    </button>
-                </div>
+                {!loading.events && !error.events && events.length > 0 && (
+                    <div className="text-center mt-12">
+                        <button
+                            onClick={handleViewAll}
+                            className="px-8 py-3 border-2 border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-colors duration-200"
+                        >
+                            View All Events
+                        </button>
+                    </div>
+                )}
             </div>
         </section>
     );
