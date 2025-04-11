@@ -1,5 +1,3 @@
-
-
 "use client";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Plus } from "lucide-react";
@@ -20,6 +18,7 @@ interface EventFormData {
   location: string;
   description: string;
   eventImage: string;
+  time: string; // Remove the optional ? modifier
 }
 
 const Page = () => {
@@ -41,6 +40,7 @@ const Page = () => {
     location: "",
     description: "",
     eventImage: "",
+    time: "", // Ensure this is initialized with empty string, not undefined
   });
 
   useEffect(() => {
@@ -54,12 +54,15 @@ const Page = () => {
     setModal({ type, itemId });
 
     if (type === "add") {
+      // Initialize with today's date in YYYY-MM-DD format
+      const today = new Date().toISOString().split('T')[0];
       setFormData({
         title: "",
-        date: "",
+        date: today,
         location: "",
         description: "",
         eventImage: "",
+        time: "",
       });
       setPreviewImage(null);
     }
@@ -67,12 +70,25 @@ const Page = () => {
     if (type === "edit" && itemId) {
       const event = events.find((e) => e._id === itemId);
       if (event) {
+        // Format the date properly for form input
+        let formattedDate = "";
+        try {
+          const date = new Date(event.date);
+          if (!isNaN(date.getTime())) {
+            formattedDate = date.toISOString().split('T')[0];
+          }
+        } catch (error) {
+          console.error("Date formatting error:", error);
+          formattedDate = event.date;
+        }
+
         setFormData({
-          title: event.title,
-          date: event.date,
-          location: event.location,
+          title: event.title || "",
+          date: formattedDate,
+          location: event.location || "",
           description: event.description || "",
           eventImage: event.eventImage || "",
+          time: event.time || "",
         });
         setPreviewImage(event.eventImage || null);
       }
@@ -105,6 +121,7 @@ const Page = () => {
         location: formData.location,
         description: formData.description,
         eventImage: formData.eventImage || "/default-event.png",
+        time: formData.time || "", // Ensure it's always a string
       };
 
       if (modal.type === "add") {
@@ -120,6 +137,7 @@ const Page = () => {
       toast.error(error instanceof Error ? error.message : "An error occurred");
     }
   };
+
 
   const handleDelete = async () => {
     if (modal.type === "delete" && modal.itemId) {

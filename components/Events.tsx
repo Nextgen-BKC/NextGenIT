@@ -1,11 +1,23 @@
 'use client';
 
+import { useEffect, useMemo, useState } from 'react';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
+import { useAdmin } from '@/context/adminContext';
+
+interface EventData {
+    _id: string;
+    title: string;
+    date: string;
+    time: string;
+    location: string;
+    eventImage: string;
+    description: string;
+}
 
 interface EventCardProps {
-    image: string; // Changed from 'any' to string
+    image: string;
     title: string;
     date: string;
     time: string;
@@ -38,9 +50,8 @@ const EventCard: React.FC<EventCardProps> = ({
     return (
         <div className="bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl transform hover:-translate-y-2">
             <div className="h-48 overflow-hidden">
-
                 <Image
-                    src={image}
+                    src={image || '/default-event.png'}
                     alt={title}
                     height={200}
                     width={200}
@@ -76,57 +87,62 @@ const EventCard: React.FC<EventCardProps> = ({
 };
 
 const Events = () => {
-    const events = [
+    const { events, loading, error, fetchEvents } = useAdmin();
+    const [displayEvents, setDisplayEvents] = useState<EventData[]>([]);
+
+
+    const fallbackEvents = useMemo(() => [
         {
-            id: 1,
-            image: "/CODING.jpg",
+            _id: '1',
             title: "CODING COMPETITION",
-            date: "Mar 11, 2024",
-            time: "7:00 AM - 10:00 PM",
-            location: "Computer Lab, BKC"
-        },
-        {
-            id: 2,
-            image: "/SKILL.jpg",
-            title: "SKILL TEST COMPETITION",
-            date: "Mar 5, 2024",
-            time: "7:00 AM - 10:00 PM",
-            location: "Computer Lab, BKC"
-        },
-        {
-            id: 3,
-            image: "/WORDPRESS.jpg",
-            title: "WORDPRESS TRAINING",
-            date: "Nov 22, 2024",
-            time: "7:00 AM - 10:00 PM",
-            location: "Computer Lab, BKC"
-        },
-        {
-            id: 4,
-            image: "/BCAINTRANCE.jpg",
-            title: "BCA ENTRANCE MOCK TEST",
-            date: "Aug 24, 2024",
+            date: "2024-03-11T00:00:00.000Z",
             time: "7:00 AM - 10:00 PM",
             location: "Computer Lab, BKC",
-            isEntrance: true
+            eventImage: "/CODING.jpg",
+            description: "Competitive coding event"
         },
         {
-            id: 5,
-            image: "/GIT.jpg",
-            title: "GIT FOR PERSONAL USE",
-            date: "Jul 18, 2024",
-            time: "7:00 AM - 10:00 AM",
-            location: "Seminar Hall, BKC"
-        },
-        {
-            id: 6,
-            image: "/RESUME.jpg",
-            title: "RESUME BUILDING TRAINING",
-            date: "May 25, 2024",
-            time: "7:00 AM - 10:00 AM",
-            location: "Butwal Kalika Campus"
+            _id: '2',
+            title: "SKILL TEST COMPETITION",
+            date: "2024-03-05T00:00:00.000Z",
+            time: "7:00 AM - 10:00 PM",
+            location: "Computer Lab, BKC",
+            eventImage: "/SKILL.jpg",
+            description: "Test your skills"
         }
-    ];
+    ], []);
+
+
+    useEffect(() => {
+        fetchEvents();
+    }, [fetchEvents]);
+
+    useEffect(() => {
+
+        if (!loading.events && events.length > 0) {
+            setDisplayEvents(events);
+        } else if (!loading.events && (events.length === 0 || error.events)) {
+            setDisplayEvents(fallbackEvents);
+        }
+    }, [events, loading.events, error.events, fallbackEvents]);
+
+    // Format the date from ISO string to readable format
+    const formatDate = (dateString: string) => {
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) {
+                return "Invalid date";
+            }
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+            });
+        } catch (err) {
+            console.error("Date formatting error:", err);
+            return dateString;
+        }
+    };
 
     const handleViewAll = () => {
         toast('More events coming soon!', {
@@ -152,19 +168,33 @@ const Events = () => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {events.map((event) => (
-                        <EventCard
-                            key={event.id}
-                            image={event.image}
-                            title={event.title}
-                            date={event.date}
-                            time={event.time}
-                            location={event.location}
-                            isEntrance={event.isEntrance}
-                        />
-                    ))}
-                </div>
+                {loading.events && (
+                    <div className="text-center py-10">
+                        <p className="text-gray-500">Loading events...</p>
+                    </div>
+                )}
+
+                {error.events && (
+                    <div className="text-center py-10">
+                        <p className="text-red-500">Error: {error.events}</p>
+                    </div>
+                )}
+
+                {!loading.events && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {displayEvents.map((event) => (
+                            <EventCard
+                                key={event._id}
+                                image={event.eventImage}
+                                title={event.title}
+                                date={formatDate(event.date)}
+                                time={event.time}
+                                location={event.location}
+                                isEntrance={event.title.includes("ENTRANCE") || event.title.includes("Entrance")}
+                            />
+                        ))}
+                    </div>
+                )}
 
                 <div className="text-center mt-12">
                     <button

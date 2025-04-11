@@ -7,6 +7,7 @@ interface IEvent {
   date: Date;
   location?: string;
   eventImage?: string;
+  time?: string;
 }
 
 // Interface combining IEvent with Mongoose Document
@@ -34,6 +35,10 @@ const EventSchema = new Schema<IEventDocument>(
       type: String 
     },
     eventImage: { 
+      type: String,
+      default: ''
+    },
+    time: {
       type: String,
       default: ''
     }

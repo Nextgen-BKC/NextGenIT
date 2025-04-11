@@ -19,6 +19,7 @@ type Event = {
     location: string;
     eventImage: string;
     description: string;
+    time: string;
 };
 
 interface AdminContextType {
@@ -55,7 +56,17 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
         return err instanceof Error ? err.message : "An unknown error occurred";
     };
 
-    // Fixed fetchMembers to update the state
+    const safeParseJson = async (response: Response) => {
+        const text = await response.text();
+        try {
+            return text.length ? JSON.parse(text) : {};
+        } catch (e) {
+            console.error("JSON parsing error:", e);
+            console.error("Response text:", text);
+            throw new Error("Invalid JSON response from server");
+        }
+    };
+
     const fetchMembers = useCallback(async () => {
         setLoading(prev => ({ ...prev, members: true }));
         setError(prev => ({ ...prev, members: null }));
@@ -63,16 +74,15 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
             const response = await fetch('/api/members');
 
             if (!response.ok) {
-                throw new Error('Failed to fetch members');
+                throw new Error(`Failed to fetch members: ${response.status} ${response.statusText}`);
             }
 
-            const res = await response.json();
+            const res = await safeParseJson(response);
 
             if (!res || !res.data || !Array.isArray(res.data)) {
                 throw new Error('Invalid response format');
             }
 
-            // Set members in state with null checks
             setMembers(res.data.map((member: any) => ({
                 _id: member?._id?.toString() || '',
                 name: member?.name || '',
@@ -95,18 +105,21 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(prev => ({ ...prev, events: true }));
         setError(prev => ({ ...prev, events: null }));
         try {
-            const response = await fetch('/api/events');
-            const res = await response.json();
+            const response = await fetch('/api/events', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
 
             if (!response.ok) {
-                throw new Error(res.message || 'Failed to fetch events');
+                throw new Error(`Failed to fetch events: ${response.status} ${response.statusText}`);
             }
+
+            const res = await safeParseJson(response);
 
             if (!res || !res.data || !Array.isArray(res.data)) {
                 throw new Error('Invalid events format');
             }
 
-            // Transform the data to use eventImage consistently with null checks
             setEvents(res.data.map((event: any) => ({
                 _id: event?._id?.toString() || '',
                 title: event?.title || '',
@@ -114,9 +127,9 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 location: event?.location || '',
                 eventImage: event?.eventImage || '',
                 description: event?.description || '',
-                createdAt: event?.createdAt || '',
-                updatedAt: event?.updatedAt || ''
+                time: event?.time || ''
             })));
+            console.log("Events fetched successfully:", res.data);
         } catch (err) {
             const errorMessage = handleError(err);
             setError(prev => ({ ...prev, events: errorMessage }));
@@ -134,21 +147,19 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 body: JSON.stringify(member)
             });
 
-            const data = await response.json();
+            const data = await safeParseJson(response);
 
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to add member');
             }
 
-            // Only update state if we have valid data
             if (data && data.data && data.data._id) {
-                // Optimistic update
                 setMembers(prev => [...prev, { ...member, _id: data.data._id }]);
             } else {
-                // Refetch if we can't do an optimistic update
                 await fetchMembers();
             }
 
+            toast.success('Member added successfully');
             return data;
         } catch (err) {
             toast.error(handleError(err));
@@ -164,17 +175,17 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 body: JSON.stringify(member)
             });
 
-            const data = await response.json();
+            const data = await safeParseJson(response);
 
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to update member');
             }
 
-            // Optimistic update
             setMembers(prev =>
                 prev.map(m => m._id === id ? { ...m, ...member } : m)
             );
 
+            toast.success('Member updated successfully');
             return data;
         } catch (err) {
             toast.error(handleError(err));
@@ -188,14 +199,14 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 method: 'DELETE'
             });
 
-            const data = await response.json();
+            const data = await safeParseJson(response);
 
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to delete member');
             }
 
-            // Optimistic update
             setMembers(prev => prev.filter(m => m._id !== id));
+            toast.success('Member deleted successfully');
             return data;
         } catch (err) {
             toast.error(handleError(err));
@@ -210,17 +221,17 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(event)
             });
-            const result = await response.json();
+
+            const result = await safeParseJson(response);
 
             if (!response.ok) {
                 throw new Error(result.error || 'Failed to add event');
             }
 
             if (result && result.data && result.data._id) {
-                setEvents(prev => [...prev, { ...result.data }]); // Optimistic update
-                toast.success('Event added');
+                setEvents(prev => [...prev, { ...result.data }]);
+                toast.success('Event added successfully');
             } else {
-                // Refetch if we can't do an optimistic update
                 await fetchEvents();
                 toast.success('Event added');
             }
@@ -237,7 +248,8 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(event)
             });
-            const result = await response.json();
+
+            const result = await safeParseJson(response);
 
             if (!response.ok) {
                 throw new Error(result.error || 'Failed to update event');
@@ -246,7 +258,7 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
             setEvents(prev =>
                 prev.map(e => e._id === id ? { ...e, ...event } : e)
             );
-            toast.success('Event updated');
+            toast.success('Event updated successfully');
         } catch (err) {
             toast.error(handleError(err));
             throw err;
@@ -259,14 +271,14 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 method: 'DELETE'
             });
 
-            const result = await response.json();
+            const result = await safeParseJson(response);
 
             if (!response.ok) {
                 throw new Error(result.error || 'Failed to delete event');
             }
 
             setEvents(prev => prev.filter(e => e._id !== id));
-            toast.success('Event deleted');
+            toast.success('Event deleted successfully');
         } catch (err) {
             toast.error(handleError(err));
             throw err;

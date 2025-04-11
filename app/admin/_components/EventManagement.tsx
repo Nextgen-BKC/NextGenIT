@@ -9,6 +9,7 @@ interface EventProps {
     location: string;
     description?: string;
     eventImage?: string;
+    time: string; // Make time required here 
 }
 
 interface EventManagementProps {
@@ -44,7 +45,7 @@ const EventManagement: React.FC<EventManagementProps> = ({ events = [], openModa
                                         )}
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-medium">{event.title}</h3>
+                                        <h3 className="font-bold">{event.title}</h3>
                                         <p className="text-sm text-gray-600 mt-1">
                                             <span className="flex items-center gap-1">
                                                 <Calendar size={14} />
@@ -52,6 +53,7 @@ const EventManagement: React.FC<EventManagementProps> = ({ events = [], openModa
                                             </span>
                                         </p>
                                         <p className="text-sm text-gray-600 mt-1">{event.location}</p>
+                                        <p className="text-sm text-gray-600 mt-1">{event.time}</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-2 mt-4">

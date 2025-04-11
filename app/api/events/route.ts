@@ -9,6 +9,7 @@ type dataType = {
   date: Date;
   location: string;
   eventImage: string;
+  time: string;
 };
 
 
@@ -34,38 +35,51 @@ export async function GET() {
   }
 }
 
-
 // POST: Create new event
 export async function POST(req: NextRequest) {
   try {
     await dbConnect();
     
     const body: dataType = await req.json();
-    const { title, description, date, location, eventImage } = body;
-    console.log(body);
-    if (!title || !description|| !eventImage) {
+    const { title, description, date, location, eventImage, time } = body;
+    console.log("Received event data:", body);
+
+    if (!title || !description) {
       return NextResponse.json(
-        { message: 'All fields are required' }, 
+        { message: 'Title and description are required' }, 
         { status: 400 }
       );
     }
 
-    // POST handler
-const newEvent = await Events.create({
-  title,
-  description,
-  date,
-  location,
-  eventImage,
-});
+    const newEvent = await Events.create({
+      title,
+      description,
+      date,
+      location,
+      eventImage: eventImage || "/default-event.png",
+      time: time || "",
+    });
 
+    // Make sure to return the created event with proper data structure
     return NextResponse.json(
-      { message: 'Event created successfully', newEvent },
+      { 
+        message: 'Event created successfully', 
+        data: {
+          ...newEvent.toObject(),
+          _id: newEvent._id.toString()
+        }
+      },
       { status: 201 }
     );
 
   } catch (error) {
     console.error('POST /events error:', error);
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { message: `Failed to create event: ${error.message}` }, 
+        { status: 500 }
+      );
+    }
     return NextResponse.json(
       { message: 'Internal server error' }, 
       { status: 500 }

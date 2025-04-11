@@ -10,6 +10,7 @@ export interface AddEditEventModalProps {
         location: string;
         description: string;
         eventImage: string;
+        time: string;
     };
     previewImage: string | null;
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -29,6 +30,19 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
     closeModal,
     loading
 }) => {
+    // Format ISO date string to YYYY-MM-DD for date input
+    const formatDateForInput = (dateString: string) => {
+        if (!dateString) return '';
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return '';
+            return date.toISOString().split('T')[0];
+        } catch (error) {
+            console.error("Date formatting error:", error);
+            return '';
+        }
+    };
+
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-xl shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
@@ -48,7 +62,7 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                     <div className="mb-4">
                         <CloudinaryUploader
                             onImageUpload={handleImageUpload}
-                            previewImage={previewImage || formData.eventImage}
+                            previewImage={previewImage || formData.eventImage || ''}
                             aspectRatio="rectangle"
                             placeholderText="Upload Event Banner"
                         />
@@ -59,7 +73,7 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                         <input
                             type="text"
                             name="title"
-                            value={formData.title}
+                            value={formData.title ?? ''}
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg"
                             required
@@ -71,7 +85,7 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                         <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                         <textarea
                             name="description"
-                            value={formData.description}
+                            value={formData.description ?? ''}
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg h-32"
                             required
@@ -84,11 +98,24 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                         <input
                             type="date"
                             name="date"
-                            value={formData.date}
+                            value={formatDateForInput(formData.date)}
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg"
                             required
                             disabled={loading}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Start And End Time</label>
+                        <input
+                            type="text"
+                            name="time"
+                            value={formData.time ?? ''}
+                            onChange={handleInputChange}
+                            className="w-full p-2 border rounded-lg"
+                            required
+                            disabled={loading}
+                            placeholder="e.g. 7:00 AM - 10:00 PM"
                         />
                     </div>
 
@@ -97,7 +124,7 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                         <input
                             type="text"
                             name="location"
-                            value={formData.location}
+                            value={formData.location ?? ''}
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg"
                             required
