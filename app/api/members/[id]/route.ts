@@ -5,11 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 // PUT: Update a member
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string   } }
+  { params }: { params: Promise<{ id: string   }> }
 ) {
   try {
     await dbConnect();
-    const { id } = params;
+    const { id } =await params;
     const body = await req.json();
     
     const updatedMember = await Member.findByIdAndUpdate(id, body, {
@@ -40,11 +40,10 @@ export async function PUT(
 // DELETE: Remove a member
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  { params }: { params: Promise<{ id: string }> }) {
   try {
     await dbConnect();
-    const { id } = params;
+    const { id } =await params;
 
     // Validate the format of the ID (if required)
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {

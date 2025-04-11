@@ -3,13 +3,14 @@ import Events from "@/models/eventsModel";
 import { NextRequest, NextResponse } from "next/server";
 
 // PUT: Update an event
+
+
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  { params }: { params: Promise<{ id: string }> }) {
   try {
     await dbConnect();
-    const { id } = params;
+    const { id } =await params;
     const body = await req.json();
 
     const updatedEvent = await Events.findByIdAndUpdate(id, body, {
@@ -40,11 +41,10 @@ export async function PUT(
 // DELETE: Remove an event
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  { params }: { params: Promise<{ id: string }> }) {
   try {
     await dbConnect();
-    const { id } = params;
+    const { id } =await params;
 
     // Optional: Validate MongoDB ObjectId
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
