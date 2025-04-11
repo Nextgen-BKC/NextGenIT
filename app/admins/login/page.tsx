@@ -30,7 +30,7 @@ const LoginPage = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      router.push('/admin/dashboard/events');
+      router.push('/admin/dashboard/members');
 
       toast.success('Welcome back! Redirecting...');
     } catch (error) {

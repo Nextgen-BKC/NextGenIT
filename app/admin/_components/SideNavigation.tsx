@@ -27,7 +27,7 @@ const SideNavigation = ({ isSidebarOpen, handleSignOut }: SideNavigationProps) =
 
 
                 <nav className="flex-1 mt-6">
-                    <Link href="/admin/dashboard/events" className={`flex items-center px-6 py-3 text-gray-700 hover:bg-orange-50 `}>
+                    <Link href="/admin/dashboard/members" className={`flex items-center px-6 py-3 text-gray-700 hover:bg-orange-50 `}>
                         <Users size={20} className="mr-3" />
                         <span>Members</span>
                     </Link>
