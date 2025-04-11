@@ -2,8 +2,6 @@ import Image from "next/image";
 
 const Hero = () => {
     return (
-
-
         <section className="pt-24 pb-12 md:pt-32 md:pb-20 bg-gradient-to-br from-gray-50 to-gray-100">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-10">
@@ -38,7 +36,7 @@ const Hero = () => {
                                 alt="NextGen Innovator Club"
                                 width={1000}
                                 height={1000}
-                                className="w-full h-auto object-contain"
+                                className="w-3/4 md:w-full h-auto object-contain mx-auto"
                                 priority
                             />
                         </div>
