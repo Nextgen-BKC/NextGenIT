@@ -48,7 +48,7 @@ const EventCard: React.FC<EventCardProps> = ({
                     height={200}
                     width={200}
                     className="object-cover w-full h-full"
-                    sizes="(max-width: px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority
                 />
             </div>
             <div className="p-6">

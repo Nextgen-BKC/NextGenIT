@@ -24,9 +24,11 @@ const MemberCard: React.FC<MemberCardProps> = ({ image, name, email }) => {
                 <Image
                     src={image || '/default-member.png'}
                     alt={name}
-                    fill
+                    height={200}
+                    width={200}
+                    priority
                     className="object-cover"
-                    sizes="(max-width: 768px) 30vw, 192px"
+
                 />
             </div>
 
