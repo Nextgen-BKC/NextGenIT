@@ -1,5 +1,5 @@
 "use client";
-import { Users, Calendar, LogOut } from 'lucide-react';
+import { Users, Calendar, LogOut, CircleUserRound } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -33,6 +33,10 @@ const SideNavigation = ({ isSidebarOpen, handleSignOut }: SideNavigationProps) =
                         <Calendar size={20} className="mr-3" />
                         <span>Events</span>
                     </Link>
+                    <Link href="https://github.com/bimal009/" className="flex items-center px-6 py-3 text-gray-200 hover:bg-gray-700 hover:text-white">
+                        <CircleUserRound size={20} className="mr-3" />
+                        <span>Bimal Pandey</span>
+                    </Link>
                 </nav>
 
                 {/* Sign Out Button - Fixed at Bottom */}
@@ -44,6 +48,8 @@ const SideNavigation = ({ isSidebarOpen, handleSignOut }: SideNavigationProps) =
                         <LogOut size={20} className="mr-2" />
                         <span>Sign Out</span>
                     </button>
+
+
                 </div>
             </div>
         </div>
