@@ -129,7 +129,6 @@ const AdminProvider = ({ children }: { children: React.ReactNode }) => {
                 description: event?.description || '',
                 time: event?.time || ''
             })));
-            console.log("Events fetched successfully:", res.data);
         } catch (err) {
             const errorMessage = handleError(err);
             setError(prev => ({ ...prev, events: errorMessage }));

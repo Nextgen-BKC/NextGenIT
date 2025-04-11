@@ -80,19 +80,37 @@ const Footer = () => {
                     <p className="text-gray-500 text-sm order-2">
                         Established 2024 at Butwal Kalika Campus
                     </p>
-                    <div className="links flex flex-wrap justify-center gap-3 md:gap-4 order-1 md:order-3">
-                        <Link target='_blank' href="https://github.com/bimal009" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
-                            Bimal Pandey
-                        </Link>
-                        <Link target='_blank' href="https://github.com/Aashish-Chapagain" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
-                            Aashish Chapagain
-                        </Link>
-                        <Link target='_blank' href="https://github.com/ANMOL-CHHETRI" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
-                            Anmol Chettri
-                        </Link>
-                        <Link target='_blank' href="https://github.com/sikharsp" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
-                            Shikar Panthi
-                        </Link>
+
+                </div>
+
+                {/* New Additional Bottom Section */}
+                <div className="border-t border-gray-800 mt-6 pt-6 flex flex-col md:flex-row justify-center items-center gap-4 text-center">
+
+                    <div className="links flex flex-wrap  justify-evenly items-center gap-3 md:gap-4 order-1 md:order-3">
+                        <div>
+
+                            <Link target='_blank' href="https://github.com/bimal009" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
+                                Bimal Pandey
+                            </Link>
+                        </div>
+                        <div>
+
+                            <Link target='_blank' href="https://github.com/Aashish-Chapagain" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
+                                Aashish Chapagain
+                            </Link>
+                        </div>
+                        <div>
+
+
+                            <Link target='_blank' href="https://github.com/ANMOL-CHHETRI" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
+                                Anmol Chettri
+                            </Link>
+                        </div>
+                        <div>
+                            <Link target='_blank' href="https://github.com/sikharsp" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
+                                Shikar Panthi
+                            </Link>
+                        </div>
 
                     </div>
                 </div>
