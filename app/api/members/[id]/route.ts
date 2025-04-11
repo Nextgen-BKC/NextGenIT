@@ -1,43 +1,43 @@
 import dbConnect from "@/lib/dbCon";
-import Events from "@/models/eventsModel";
+import Member from "@/models/membersModel";
 import { NextRequest, NextResponse } from "next/server";
 
-// PUT: Update an event
+// PUT: Update a member
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string   } }
 ) {
   try {
     await dbConnect();
     const { id } = params;
     const body = await req.json();
-
-    const updatedEvent = await Events.findByIdAndUpdate(id, body, {
+    
+    const updatedMember = await Member.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
     });
 
-    if (!updatedEvent) {
+    if (!updatedMember) {
       return NextResponse.json(
-        { message: "Event not found" },
+        { message: "Member not found" },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ 
-      message: "Event updated successfully", 
-      data: updatedEvent 
+    return NextResponse.json({
+      message: "Member updated successfully",
+      data: updatedMember
     });
   } catch (error) {
-    console.error("PUT /events/:id error:", error);
+    console.error("PUT /members/:id error:", error);
     return NextResponse.json(
-      { message: "Failed to update event" },
+      { message: "Failed to update member" },
       { status: 500 }
     );
   }
 }
 
-// DELETE: Remove an event
+// DELETE: Remove a member
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -46,32 +46,32 @@ export async function DELETE(
     await dbConnect();
     const { id } = params;
 
-    // Optional: Validate MongoDB ObjectId
+    // Validate the format of the ID (if required)
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json(
-        { message: "Invalid event ID format" },
+        { message: "Invalid member ID format" },
         { status: 400 }
       );
     }
 
-    const deletedEvent = await Events.findByIdAndDelete(id);
+    const deletedMember = await Member.findByIdAndDelete(id);
 
-    if (!deletedEvent) {
+    if (!deletedMember) {
       return NextResponse.json(
-        { message: "Event not found" },
+        { message: "Member not found" },
         { status: 404 }
       );
     }
 
     return NextResponse.json(
       {
-        message: "Event deleted successfully",
-        data: deletedEvent,
+        message: "Member deleted successfully",
+        data: deletedMember,
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("DELETE /events/:id error:", error);
+    console.error("DELETE /members/:id error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

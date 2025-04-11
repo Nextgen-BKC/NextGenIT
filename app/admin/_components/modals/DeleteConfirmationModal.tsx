@@ -1,8 +1,9 @@
-
+"use client";
+import React from 'react';
 
 interface DeleteConfirmationModalProps {
     section: 'members' | 'events';
-    handleDelete: () => void;
+    handleDelete: () => Promise<void>;
     closeModal: () => void;
 }
 
@@ -40,6 +41,3 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
 };
 
 export default DeleteConfirmationModal;
-
-// File: app/admin/page.tsx - Missing imports update
-// At the top of your main page file, add:

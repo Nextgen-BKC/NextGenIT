@@ -1,70 +1,52 @@
-import { Users, Calendar, LogOut, Settings } from 'lucide-react';
+
+"use client";
+import { Users, Calendar, LogOut } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface SideNavigationProps {
-    activeSection: 'members' | 'events';
-    setActiveSection: (section: 'members' | 'events') => void;
     isSidebarOpen: boolean;
-    handleSignOut: () => void;
+    handleSignOut: () => Promise<void>;
 }
 
-const SideNavigation: React.FC<SideNavigationProps> = ({
-    activeSection,
-    setActiveSection,
-    isSidebarOpen,
-    handleSignOut
-}) => {
+const SideNavigation = ({ isSidebarOpen, handleSignOut }: SideNavigationProps) => {
+    if (!isSidebarOpen) return null;
+
     return (
-        <div
-            className={`bg-gray-900 text-white w-64 min-h-screen fixed left-0 top-0 transition-transform z-50 lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                }`}
-        >
-            <div className="p-4 border-b border-gray-800">
-                <div className="flex items-center gap-3">
-                    <Image
-                        src="/logo.png" // Replace with your logo path
-                        alt="Logo"
-                        width={40}
-                        height={40}
-                        className="rounded-lg"
-                    />
-                    <span className="text-xl font-bold">NextGen Club</span>
+        <div className="fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 lg:translate-x-0">
+            <div className="logo flex justify-center items-center ml-3">
+
+
+                <Image src="/logo.png" height={200} width={200} alt="Club Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
+                <div className="p-6">
+                    <h5 className=" font-bold text-orange-500">NextGen Innovator</h5>
+                    <p className="text-gray-600">Admin Panel</p>
                 </div>
             </div>
+            <div className="flex flex-col h-full">
 
-            <nav className="p-4 space-y-2">
-                <button
-                    onClick={() => setActiveSection('members')}
-                    className={`w-full flex items-center gap-3 p-3 rounded-lg ${activeSection === 'members' ? 'bg-gray-700' : 'hover:bg-gray-800'
-                        }`}
-                >
-                    <Users size={20} />
-                    Members
-                </button>
 
-                <button
-                    onClick={() => setActiveSection('events')}
-                    className={`w-full flex items-center gap-3 p-3 rounded-lg ${activeSection === 'events' ? 'bg-gray-700' : 'hover:bg-gray-800'
-                        }`}
-                >
-                    <Calendar size={20} />
-                    Events
-                </button>
+                <nav className="flex-1 mt-6">
+                    <Link href="/admin/dashboard/members" className={`flex items-center px-6 py-3 text-gray-700 hover:bg-orange-50 `}>
+                        <Users size={20} className="mr-3" />
+                        <span>Members</span>
+                    </Link>
+                    <Link href="/admin/dashboard/events" className={`flex items-center px-6 py-3 text-gray-700 hover:bg-orange-50 `}>
+                        <Calendar size={20} className="mr-3" />
+                        <span>Events</span>
+                    </Link>
+                </nav>
 
-                <div className="pt-8 mt-8 border-t border-gray-800">
-                    <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800">
-                        <Settings size={20} />
-                        Settings
-                    </button>
+                <div className="p-6 border-t border-gray-200">
                     <button
                         onClick={handleSignOut}
-                        className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800"
+                        className="w-full flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
                     >
-                        <LogOut size={20} />
-                        Sign Out
+                        <LogOut size={20} className="mr-3" />
+                        <span>Sign Out</span>
                     </button>
                 </div>
-            </nav>
+            </div>
         </div>
     );
 };

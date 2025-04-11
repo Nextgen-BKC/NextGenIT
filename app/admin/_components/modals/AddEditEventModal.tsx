@@ -1,24 +1,22 @@
-// File: app/admin/components/modals/AddEditEventModal.tsx
 "use client";
 import { X, Save } from 'lucide-react';
 import CloudinaryUploader from '../CloudinaryUploader';
-import { useAdmin } from '@/context/adminContext';
 
-interface AddEditEventModalProps {
+export interface AddEditEventModalProps {
     type: 'add' | 'edit';
     formData: {
         title: string;
-        description: string;
         date: string;
         location: string;
+        description: string;
         eventImage: string;
     };
     previewImage: string | null;
-    handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void; // Fix for description
+    handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     handleImageUpload: (url: string) => void;
     handleSubmit: (e: React.FormEvent) => void;
     closeModal: () => void;
-    eventId?: string; // Add for edit mode
+    loading: boolean;
 }
 
 const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
@@ -28,10 +26,9 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
     handleInputChange,
     handleImageUpload,
     handleSubmit,
-    closeModal
+    closeModal,
+    loading
 }) => {
-    const { loading } = useAdmin();
-
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-xl shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
@@ -66,7 +63,7 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg"
                             required
-                            disabled={loading.events}
+                            disabled={loading}
                         />
                     </div>
 
@@ -78,7 +75,7 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg h-32"
                             required
-                            disabled={loading.events}
+                            disabled={loading}
                         />
                     </div>
 
@@ -91,7 +88,7 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg"
                             required
-                            disabled={loading.events}
+                            disabled={loading}
                         />
                     </div>
 
@@ -104,7 +101,7 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg"
                             required
-                            disabled={loading.events}
+                            disabled={loading}
                         />
                     </div>
 
@@ -113,17 +110,17 @@ const AddEditEventModal: React.FC<AddEditEventModalProps> = ({
                             type="button"
                             className="px-4 py-2 text-gray-700 border rounded-lg hover:bg-gray-50 disabled:opacity-50"
                             onClick={closeModal}
-                            disabled={loading.events}
+                            disabled={loading}
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 flex items-center gap-2 disabled:opacity-50"
-                            disabled={loading.events}
+                            disabled={loading}
                         >
                             <Save size={18} />
-                            {loading.events ? 'Saving...' : 'Save'}
+                            {loading ? 'Saving...' : 'Save'}
                         </button>
                     </div>
                 </form>

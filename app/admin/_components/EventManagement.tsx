@@ -7,12 +7,13 @@ interface EventProps {
     title: string;
     date: string;
     location: string;
+    description?: string;
     eventImage?: string;
 }
 
 interface EventManagementProps {
     events: EventProps[];
-    openModal: (type: 'add' | 'edit' | 'delete', section: 'members' | 'events', itemId?: string | null) => void;
+    openModal: (type: 'add' | 'edit' | 'delete', itemId: string | null) => void;
 }
 
 const EventManagement: React.FC<EventManagementProps> = ({ events = [], openModal }) => {
@@ -56,13 +57,13 @@ const EventManagement: React.FC<EventManagementProps> = ({ events = [], openModa
                                 <div className="flex gap-2 mt-4">
                                     <button
                                         className="text-blue-500 hover:text-blue-600 p-2"
-                                        onClick={() => openModal('edit', 'events', event._id)}
+                                        onClick={() => openModal('edit', event._id)}
                                     >
                                         <Edit size={18} />
                                     </button>
                                     <button
                                         className="text-red-500 hover:text-red-600 p-2"
-                                        onClick={() => openModal('delete', 'events', event._id)}
+                                        onClick={() => openModal('delete', event._id)}
                                     >
                                         <Trash2 size={18} />
                                     </button>

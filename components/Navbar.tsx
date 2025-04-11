@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Menu, MessageSquareMore } from 'lucide-react';
 import Link from 'next/link';
 import Message from './Message';
+import Image from 'next/image';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,11 +49,12 @@ const Navbar = () => {
                 </div>
             )}
 
+
             <div className="container mx-auto px-4 py-3">
                 <div className="flex items-center justify-between">
                     {/* Logo Section */}
                     <div className="flex items-center gap-3">
-                        <img src="/logo.png" alt="Club Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
+                        <Image src="/logo.png" height={200} width={200} alt="Club Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
                         <div className="hidden sm:block">
                             <h1 className="text-sm md:text-lg font-bold text-gray-800">NextGen Innovator Club</h1>
                             <p className="text-xs md:text-sm text-gray-600">Butwal Kalika Campus</p>

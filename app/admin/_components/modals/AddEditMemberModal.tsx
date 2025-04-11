@@ -1,7 +1,8 @@
+"use client";
 import { X, Save } from 'lucide-react';
 import CloudinaryUploader from '../CloudinaryUploader';
 
-interface AddEditMemberModalProps {
+export interface AddEditMemberModalProps {
     type: 'add' | 'edit';
     formData: {
         name: string;
@@ -11,7 +12,7 @@ interface AddEditMemberModalProps {
         userImage: string;
     };
     previewImage: string | null;
-    handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
     handleImageUpload: (url: string) => void;
     handleSubmit: (e: React.FormEvent) => void;
     closeModal: () => void;
@@ -42,12 +43,12 @@ const AddEditMemberModal: React.FC<AddEditMemberModalProps> = ({
                 </div>
 
                 <form onSubmit={handleSubmit} className="p-4">
-                    <div className="mb-4 flex flex-col items-center">
+                    <div className="mb-4">
                         <CloudinaryUploader
                             onImageUpload={handleImageUpload}
-                            previewImage={previewImage || formData.userImage}
-                            aspectRatio="circle"
-                            placeholderText="Upload Profile Photo"
+                            previewImage={previewImage}
+                            aspectRatio="square"
+                            placeholderText="Upload Profile Picture"
                         />
                     </div>
 
@@ -82,10 +83,11 @@ const AddEditMemberModal: React.FC<AddEditMemberModalProps> = ({
                             value={formData.role}
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg"
+                            required
                         >
-                            <option value="Admin">Admin</option>
                             <option value="Member">Member</option>
-                            <option value="Guest">Guest</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Moderator">Moderator</option>
                         </select>
                     </div>
 
@@ -96,6 +98,7 @@ const AddEditMemberModal: React.FC<AddEditMemberModalProps> = ({
                             value={formData.status}
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded-lg"
+                            required
                         >
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -125,4 +128,3 @@ const AddEditMemberModal: React.FC<AddEditMemberModalProps> = ({
 };
 
 export default AddEditMemberModal;
-

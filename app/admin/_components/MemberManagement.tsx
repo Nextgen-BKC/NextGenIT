@@ -2,12 +2,12 @@ import { Edit, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 
 interface MemberProps {
-    id: number;
+    _id: string;  // Changed from id: number to _id: string for MongoDB
     name: string;
     email: string;
     role: string;
     status: string;
-    userimage: string;
+    userImage: string;
 }
 
 interface MemberManagementProps {
@@ -24,7 +24,7 @@ const MemberManagement: React.FC<MemberManagementProps> = ({ members, openModal 
         <div className="bg-white rounded-xl shadow-lg p-4 md:p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {members.map((member) => (
-                    <div key={member.id} className="flex items-center p-4 bg-gray-50 rounded-lg">
+                    <div key={member._id} className="flex items-center p-4 bg-gray-50 rounded-lg">
                         <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
                             <Image
                                 src={member.userImage || "/api/placeholder/48/48"}
@@ -50,13 +50,13 @@ const MemberManagement: React.FC<MemberManagementProps> = ({ members, openModal 
                         <div className="flex gap-2">
                             <button
                                 className="text-blue-500 hover:text-blue-600 p-2"
-                                onClick={() => openModal('edit', 'members', member.id)}
+                                onClick={() => openModal('edit', 'members', member._id)}
                             >
                                 <Edit size={18} />
                             </button>
                             <button
                                 className="text-red-500 hover:text-red-600 p-2"
-                                onClick={() => openModal('delete', 'members', member.id)}
+                                onClick={() => openModal('delete', 'members', member._id)}
                             >
                                 <Trash2 size={18} />
                             </button>
