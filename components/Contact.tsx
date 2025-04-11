@@ -37,10 +37,17 @@ const Contact = () => {
         try {
             setLoading(true);
 
-            // Replace these with your actual EmailJS service ID, template ID, and public key
+            // Using NEXT_PUBLIC prefix for client-side environment variables
             const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
             const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
             const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+            // For debugging purposes, remove in production
+            console.log("EmailJS Config:", {
+                serviceId: serviceId ? "Found" : "Missing",
+                templateId: templateId ? "Found" : "Missing",
+                publicKey: publicKey ? "Found" : "Missing"
+            });
 
             if (!serviceId || !templateId || !publicKey) {
                 throw new Error('EmailJS configuration is missing');
@@ -58,7 +65,7 @@ const Contact = () => {
             // Reset form
             setFormData({ name: '', email: '', subject: '', message: '' });
 
-            // Show success message
+
             toast.success('Message sent successfully! We will get back to you soon.', {
                 iconTheme: {
                     primary: '#FF6900',
