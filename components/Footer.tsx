@@ -93,24 +93,7 @@ const Footer = () => {
                                 Bimal Pandey
                             </Link>
                         </div>
-                        <div>
 
-                            <Link target='_blank' href="https://github.com/Aashish-Chapagain" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
-                                Aashish Chapagain
-                            </Link>
-                        </div>
-                        <div>
-
-
-                            <Link target='_blank' href="https://github.com/ANMOL-CHHETRI" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
-                                Anmol Chettri
-                            </Link>
-                        </div>
-                        <div>
-                            <Link target='_blank' href="https://github.com/sikharsp" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
-                                Shikar Panthi
-                            </Link>
-                        </div>
 
                     </div>
                 </div>
