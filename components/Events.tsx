@@ -4,7 +4,7 @@ import { useEffect, } from 'react';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
-import { useAdmin } from '@/context/adminContext';
+import { useEvents } from '@/lib/apis/useAdmin';
 
 
 
@@ -18,7 +18,7 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({
-    image,
+    image,  
     title,
     date,
     time,
@@ -79,11 +79,7 @@ const EventCard: React.FC<EventCardProps> = ({
 };
 
 const Events = () => {
-    const { events, loading, error, fetchEvents } = useAdmin();
-
-    useEffect(() => {
-        fetchEvents();
-    }, [fetchEvents]);
+    const { data: events = [], isLoading, error } = useEvents();
 
     // Format the date from ISO string to readable format
     const formatDate = (dateString: string) => {
@@ -127,23 +123,23 @@ const Events = () => {
                     </p>
                 </div>
 
-                {loading.events && (
+                {isLoading && (
                     <div className="text-center py-10">
                         <div className="inline-block w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
                         <p className="text-gray-500 mt-4">Loading events...</p>
                     </div>
                 )}
 
-                {error.events && (
+                {error && (
                     <div className="text-center py-10 px-4 mx-auto max-w-md bg-red-50 rounded-lg">
                         <div className="text-red-500 text-5xl mb-4">⚠️</div>
-                        <p className="text-red-500 font-medium">Error: {error.events}</p>
+                        <p className="text-red-500 font-medium">Error: {error.message || error.toString()}</p>
                     </div>
                 )}
 
-                {!loading.events && !error.events && events.length > 0 ? (
+                {!isLoading && !error && events.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {events.map((event) => (
+                        {events.map((event: any) => (
                             <EventCard
                                 key={event._id}
                                 image={event.eventImage}
@@ -155,13 +151,13 @@ const Events = () => {
                             />
                         ))}
                     </div>
-                ) : (!loading.events && !error.events && (
+                ) : (!isLoading && !error && (
                     <div className="text-center py-10">
                         <p className="text-gray-500">No events found.</p>
                     </div>
                 ))}
 
-                {!loading.events && !error.events && events.length > 0 && (
+                {!isLoading && !error && events.length > 0 && (
                     <div className="text-center mt-12">
                         <button
                             onClick={handleViewAll}

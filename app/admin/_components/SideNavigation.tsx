@@ -33,16 +33,13 @@ const SideNavigation = ({ isSidebarOpen, handleSignOut }: SideNavigationProps) =
                         <Calendar size={20} className="mr-3" />
                         <span>Events</span>
                     </Link>
-                    <Link href="https://github.com/bimal009/" className="flex items-center px-6 py-3 text-gray-200 hover:bg-gray-700 hover:text-white">
-                        <CircleUserRound size={20} className="mr-3" />
-                        <span>Bimal Pandey</span>
-                    </Link>
+                  
                 </nav>
 
                 {/* Sign Out Button - Fixed at Bottom */}
                 <div className="mt-auto p-4 border-t border-gray-700">
                     <button
-                        onClick={handleSignOut}
+                        onClick={handleSignOut }
                         className="w-full flex items-center justify-center px-4 py-3 text-white bg-orange-600 hover:bg-orange-700 rounded-lg transition-colors font-medium"
                     >
                         <LogOut size={20} className="mr-2" />

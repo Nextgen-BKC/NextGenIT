@@ -89,9 +89,7 @@ const Footer = () => {
                     <div className="links flex flex-wrap  justify-evenly items-center gap-3 md:gap-4 order-1 md:order-3">
                         <div>
 
-                            <Link target='_blank' href="https://github.com/bimal009" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
-                                Bimal Pandey
-                            </Link>
+                            
                         </div>
 
 

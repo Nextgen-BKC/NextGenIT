@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
-import AdminProvider from "@/context/adminContext";
+import Providers from "@/lib/providers/queryProviders";
 
 
 export const metadata: Metadata = {
@@ -17,11 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AdminProvider>
+        <Providers>
+
 
           <Toaster position="bottom-center" />
           {children}
-        </AdminProvider>
+        </Providers>
 
       </body>
     </html>

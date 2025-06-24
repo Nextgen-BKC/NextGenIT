@@ -5,38 +5,31 @@ import MemberManagement from '../../_components/MemberManagement';
 import AddEditMemberModal from '../../_components/modals/AddEditMemberModal';
 import DeleteConfirmationModal from '../../_components/modals/DeleteConfirmationModal';
 import toast from 'react-hot-toast';
-import { useAdmin } from '@/context/adminContext';
+import { useMembers, useAddMember, useUpdateMember, useDeleteMember } from '@/lib/apis/useAdmin';
+import type { Member, MemberInput } from '@/lib/apis/membersApi';
 
 interface ModalState {
     type: 'add' | 'edit' | 'delete' | null;
     itemId: string | null;
 }
 
-interface MemberFormData {
-    name: string;
-    email: string;
-    role: string;
-    status: string;
-    userImage: string;
-}
-
 const Page = () => {
     const {
-        members,
-        loading,
-        error,
-        fetchMembers,
-        addMember,
-        updateMember,
-        deleteMember
-    } = useAdmin();
+        data: members = [],
+        isLoading: membersLoading,
+        isError: membersError,
+        refetch: fetchMembers
+    } = useMembers();
+    const addMemberMutation = useAddMember();
+    const updateMemberMutation = useUpdateMember();
+    const deleteMemberMutation = useDeleteMember();
 
     const [modal, setModal] = useState<ModalState>({
         type: null,
         itemId: null
     });
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    const [formData, setFormData] = useState<MemberFormData>({
+    const [formData, setFormData] = useState<MemberInput>({
         name: '',
         email: '',
         role: 'Member',
@@ -67,8 +60,7 @@ const Page = () => {
 
         // Prefill form data for edit
         if (type === 'edit' && itemId) {
-            // Changed to use _id instead of id and removed Number conversion
-            const member = members.find(m => m._id === itemId);
+            const member = members.find((m: Member) => m._id === itemId);
             if (member) {
                 setFormData({
                     name: member.name,
@@ -103,7 +95,7 @@ const Page = () => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         try {
-            const memberData = {
+            const memberData: MemberInput = {
                 name: formData.name,
                 email: formData.email,
                 role: formData.role,
@@ -112,10 +104,9 @@ const Page = () => {
             };
 
             if (modal.type === 'add') {
-                await addMember(memberData);
+                await addMemberMutation.mutateAsync(memberData);
             } else if (modal.type === 'edit' && modal.itemId) {
-                // Removed Number conversion since we're using MongoDB string IDs
-                await updateMember(modal.itemId, memberData);
+                await updateMemberMutation.mutateAsync({ id: modal.itemId, member: memberData });
             }
             closeModal();
             toast.success(`${modal.type === 'add' ? 'Added' : 'Updated'} successfully`);
@@ -128,8 +119,7 @@ const Page = () => {
     const handleDelete = async () => {
         if (modal.type === 'delete' && modal.itemId) {
             try {
-                // Removed Number conversion since we're using MongoDB string IDs
-                await deleteMember(modal.itemId);
+                await deleteMemberMutation.mutateAsync(modal.itemId);
                 toast.success('Member deleted successfully');
             } catch (error) {
                 console.error('Delete error:', error);
@@ -153,18 +143,18 @@ const Page = () => {
             </div>
 
             {/* Loading States and Error Handling */}
-            {loading.members && (
+            {membersLoading && (
                 <div className="text-center py-10">
                     <p className="text-gray-500">Loading members...</p>
                 </div>
             )}
 
-            {error.members && (
+            {membersError && (
                 <div className="text-center py-10">
-                    <p className="text-red-500">Error: {error.members}</p>
+                    <p className="text-red-500">Error loading members.</p>
                     <button
                         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                        onClick={fetchMembers}
+                        onClick={() => fetchMembers()}
                     >
                         Retry
                     </button>
@@ -172,9 +162,9 @@ const Page = () => {
             )}
 
             {/* Members List */}
-            {!loading.members && !error.members && (
+            {!membersLoading && !membersError && (
                 <MemberManagement
-                    members={members}
+                    members={members as any}
                     openModal={(type, section, itemId) => openModal(type, itemId)}
                 />
             )}

@@ -1,22 +1,15 @@
-// File structure:
-// /app/admins/layout.tsx - Main admin layout with sidebar
-// /app/admins/members/page.tsx - Members management page
-// /app/admins/events/page.tsx - Events management page
-// /app/admins/_components/ - Shared components
-
-// /app/admins/layout.tsx
 "use client";
 import { useState, useEffect, ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu } from 'lucide-react';
-import SideNavigation from './_components/SideNavigation';
+import SideNavigation from './SideNavigation';
 import toast from 'react-hot-toast';
 
-interface AdminLayoutProps {
+interface AdminClientLayoutProps {
     children: ReactNode;
 }
 
-export default function AdminLayout({ children }: AdminLayoutProps) {
+export default function AdminClientLayout({ children }: AdminClientLayoutProps) {
     const router = useRouter();
     const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
@@ -58,7 +51,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 throw new Error('Sign out failed');
             }
 
-            router.push('/admins/login');
+            router.push('/admin/login');
         } catch (error) {
             console.error('Sign out error:', error);
             toast.error('Failed to sign out. Please try again.');
@@ -103,5 +96,4 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </div>
         </div>
     );
-}
-
+} 

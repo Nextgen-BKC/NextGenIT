@@ -5,42 +5,34 @@ import EventManagement from "../../_components/EventManagement";
 import AddEditEventModal from "../../_components/modals/AddEditEventModal";
 import DeleteConfirmationModal from "../../_components/modals/DeleteConfirmationModal";
 import toast from "react-hot-toast";
-import { useAdmin } from "@/context/adminContext";
+import { useEvents, useAddEvent, useUpdateEvent, useDeleteEvent } from '@/lib/apis/useAdmin';
+import type { Event, EventInput } from '@/lib/apis/eventsApi';
 
 interface ModalState {
   type: "add" | "edit" | "delete" | null;
   itemId: string | null;
 }
 
-interface EventFormData {
-  title: string;
-  date: string;
-  location: string;
-  description: string;
-  eventImage: string;
-  time: string; // Remove the optional ? modifier
-}
-
 const Page = () => {
   const {
-    events,
-    loading,
-    error,
-    fetchEvents,
-    addEvent,
-    updateEvent,
-    deleteEvent,
-  } = useAdmin();
+    data: events = [],
+    isLoading: eventsLoading,
+    isError: eventsError,
+    refetch: fetchEvents
+  } = useEvents();
+  const addEventMutation = useAddEvent();
+  const updateEventMutation = useUpdateEvent();
+  const deleteEventMutation = useDeleteEvent();
 
   const [modal, setModal] = useState<ModalState>({ type: null, itemId: null });
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [formData, setFormData] = useState<EventFormData>({
+  const [formData, setFormData] = useState<EventInput>({
     title: "",
     date: "",
     location: "",
     description: "",
     eventImage: "",
-    time: "", // Ensure this is initialized with empty string, not undefined
+    time: "",
   });
 
   useEffect(() => {
@@ -68,7 +60,7 @@ const Page = () => {
     }
 
     if (type === "edit" && itemId) {
-      const event = events.find((e) => e._id === itemId);
+      const event = events.find((e: Event) => e._id === itemId);
       if (event) {
         // Format the date properly for form input
         let formattedDate = "";
@@ -115,19 +107,19 @@ const Page = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const eventData = {
+      const eventData: EventInput = {
         title: formData.title,
         date: formData.date,
         location: formData.location,
-        description: formData.description,
+        description: formData.description || "",
         eventImage: formData.eventImage || "/default-event.png",
-        time: formData.time || "", // Ensure it's always a string
+        time: formData.time || "",
       };
 
       if (modal.type === "add") {
-        await addEvent(eventData);
+        await addEventMutation.mutateAsync(eventData);
       } else if (modal.type === "edit" && modal.itemId) {
-        await updateEvent(modal.itemId, eventData);
+        await updateEventMutation.mutateAsync({ id: modal.itemId, event: eventData });
       }
 
       closeModal();
@@ -138,11 +130,10 @@ const Page = () => {
     }
   };
 
-
   const handleDelete = async () => {
     if (modal.type === "delete" && modal.itemId) {
       try {
-        await deleteEvent(modal.itemId);
+        await deleteEventMutation.mutateAsync(modal.itemId);
         toast.success("Event deleted successfully");
       } catch (error) {
         console.error("Delete error:", error);
@@ -166,18 +157,18 @@ const Page = () => {
       </div>
 
       {/* Loading & Error Handling */}
-      {loading.events && (
+      {eventsLoading && (
         <div className="text-center py-10">
           <p className="text-gray-500">Loading events...</p>
         </div>
       )}
 
-      {error.events && (
+      {eventsError && (
         <div className="text-center py-10">
-          <p className="text-red-500">Error: {error.events}</p>
+          <p className="text-red-500">Error loading events.</p>
           <button
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            onClick={fetchEvents}
+            onClick={() => fetchEvents()}
           >
             Retry
           </button>
@@ -185,9 +176,9 @@ const Page = () => {
       )}
 
       {/* Events List */}
-      {!loading.events && !error.events && (
+      {!eventsLoading && !eventsError && (
         <EventManagement
-          events={events}
+          events={events as any}
           openModal={(type, itemId) => openModal(type, itemId)}
         />
       )}
@@ -196,13 +187,17 @@ const Page = () => {
       {(modal.type === "add" || modal.type === "edit") && (
         <AddEditEventModal
           type={modal.type}
-          formData={formData}
+          formData={{
+            ...formData,
+            description: formData.description || "",
+            eventImage: formData.eventImage || ""
+          }}
           previewImage={previewImage}
           handleInputChange={handleInputChange}
           handleImageUpload={handleImageUpload}
           handleSubmit={handleSubmit}
           closeModal={closeModal}
-          loading={loading.events}
+          loading={eventsLoading}
         />
       )}
 
