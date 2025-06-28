@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, } from 'react';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
