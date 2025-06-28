@@ -190,7 +190,9 @@ const Page = () => {
           formData={{
             ...formData,
             description: formData.description || "",
-            eventImage: formData.eventImage || ""
+            eventImage: formData.eventImage || "",
+            location: formData.location || "",
+            time: formData.time || ""
           }}
           previewImage={previewImage}
           handleInputChange={handleInputChange}

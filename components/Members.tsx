@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Mail } from 'lucide-react';
+import { getMembers } from '@/app/admin/dashboard/members/serverActions';
 
 interface MemberData {
     _id: string;
@@ -52,13 +53,8 @@ const Members = () => {
         const fetchMembers = async () => {
             try {
                 setLoading(true);
-                const response = await fetch('/api/members');
-
-                if (!response.ok) throw new Error('Failed to fetch members');
-                const data = await response.json();
-
-                if (!data?.data) throw new Error('Invalid response format');
-                setMembers(data.data);
+                const data = await getMembers();
+                setMembers(data || []);
                 setError(null);
             } catch (err) {
                 console.error('Error fetching members:', err);

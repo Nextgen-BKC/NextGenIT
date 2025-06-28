@@ -1,3 +1,11 @@
+import {
+  getMembers as getMembersServerAction,
+  addMember as addMemberServerAction,
+  updateMember as updateMemberServerAction,
+  deleteMember as deleteMemberServerAction,
+} from "@/app/admin/dashboard/members/serverActions";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 export interface Member {
     _id: string;
     name: string;
@@ -9,39 +17,53 @@ export interface Member {
 
 export type MemberInput = Omit<Member, '_id'>;
 
+// Pure async functions for SSR or direct server action call
 export async function fetchMembers(): Promise<Member[]> {
-    const response = await fetch('/api/members');
-    if (!response.ok) throw new Error('Failed to fetch members');
-    const data = await response.json();
-    return data.data;
+    const data = await getMembersServerAction();
+    return data as Member[];
 }
 
 export async function addMember(member: MemberInput): Promise<Member> {
-    const response = await fetch('/api/members', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(member),
-    });
-    if (!response.ok) throw new Error('Failed to add member');
-    const data = await response.json();
-    return data.data;
+    return addMemberServerAction(member);
 }
 
 export async function updateMember(id: string, member: Partial<MemberInput>): Promise<Member> {
-    const response = await fetch(`/api/members/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(member),
-    });
-    if (!response.ok) throw new Error('Failed to update member');
-    const data = await response.json();
-    return data.data;
+    return updateMemberServerAction(id, member);
 }
 
 export async function deleteMember(id: string): Promise<string> {
-    const response = await fetch(`/api/members/${id}`, {
-        method: 'DELETE',
-    });
-    if (!response.ok) throw new Error('Failed to delete member');
+    await deleteMemberServerAction(id);
     return id;
+}
+
+// React Query hooks
+export function useMembers() {
+    return useQuery<Member[]>({
+        queryKey: ['members'],
+        queryFn: fetchMembers,
+    });
+}
+
+export function useAddMember() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: addMember,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['members'] }),
+    });
+}
+
+export function useUpdateMember() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ id, member }: { id: string; member: Partial<MemberInput> }) => updateMember(id, member),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['members'] }),
+    });
+}
+
+export function useDeleteMember() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: deleteMember,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['members'] }),
+    });
 } 
