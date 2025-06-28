@@ -13,6 +13,8 @@ GENERAL:
 - Phone: 071-437881, 071-438082
 - Email: kalikacampusbutwal@gmail.com
 - Stats: 45 teachers, 18 courses, approx. 1,700 students
+- NextGen Club: Technology-driven student club led by BCA students.
+- Developer: Bimal Pandey
 
 LEADERSHIP:
 - Chairperson: Hom Bahadur Galami
