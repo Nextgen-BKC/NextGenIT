@@ -1,7 +1,7 @@
 # NextGen Innovators – MERN CRUD Application
 
 Welcome to the official project repository for **NextGen Innovators**, the tech club of our campus! 🚀  
-This full-stack application demonstrates CRUD (Create, Read, Update, Delete) operations using the **MERN stack** with **Next.js** for the frontend And backend.
+This full-stack application demonstrates CRUD (Create, Read, Update, Delete) operations using the **MERN stack** with **Next.js** for the frontend and backend.
 
 ---
 
@@ -14,10 +14,12 @@ NextGen Innovators is a tech-driven campus club focused on learning, building, a
 ## 🛠 Tech Stack
 
 - **Frontend:** Next.js (React Framework)
-- **Backend:** Next.js with Express.js
+- **Backend:** Next.js with Server Actions
 - **Database:** MongoDB (Mongoose)
-- **API:** RESTful API
- 
+- **AI Chat Support:** Google Gemini AI
+- **Authentication:** JWT with HTTP-only cookies
+- **File Upload:** Cloudinary integration
+
 ---
 
 ## 📌 Project Objective
@@ -25,20 +27,26 @@ NextGen Innovators is a tech-driven campus club focused on learning, building, a
 The goal of this project is to help club members:
 
 - Understand the MERN stack architecture
-- Learn how to build full-stack applications
+- Learn how to build full-stack applications with Next.js Server Actions
 - Practice frontend-backend integration
+- Explore AI integration with Gemini
+- Understand modern authentication patterns
 - Explore deployment & environment setup
 
 ---
 
 ## 🚀 Features
 
-- ✅ Create a new item
+- ✅ Create a new item (Members & Events)
 - 📄 Read/fetch items (all or individual)
 - ✏️ Update existing items
 - ❌ Delete items
-- 🔗 API integration via Axios or fetch
+- 🤖 AI-powered chat support with Gemini
+- 🔐 Secure authentication with JWT
+- 📁 File upload and management
 - ⚡ Server-side rendering (SSR) with Next.js
 - 🛡 Environment configuration with `.env.local`
+- 📱 Responsive design for all devices
+- 🎨 Modern UI with Tailwind CSS
 
 ---
