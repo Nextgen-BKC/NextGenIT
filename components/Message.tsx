@@ -141,7 +141,7 @@ const Message = () => {
     return (
         visible && (
         <div className="flex items-center justify-center min-h-screen ">
-            <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[80vh] max-h-[700px] relative">
+            <div className="w-full  mb-25 max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[80vh] max-h-[700px] relative">
                 {/* Close Button */}
                 <button
                     className="absolute top-3 right-3 z-10 text-gray-400 hover:text-gray-700 text-2xl font-bold focus:outline-none"
