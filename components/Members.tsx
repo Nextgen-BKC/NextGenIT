@@ -10,6 +10,7 @@ interface MemberData {
     name: string;
     email: string;
     userImage: string;
+    status: string;
 }
 
 interface MemberCardProps {

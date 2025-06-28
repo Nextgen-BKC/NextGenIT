@@ -4,7 +4,7 @@ import Member from "@/models/membersModel";
 
 export async function getMembers() {
   await dbConnect();
-  const members = await Member.find({}).sort({ createdAt: -1 }).lean();
+  const members = await Member.find({ status: 'Active' }).sort({ createdAt: -1 }).lean();
   return members.map((m: any) => ({
     _id: m._id.toString(),
     name: m.name,

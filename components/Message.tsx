@@ -73,9 +73,9 @@ const Message = () => {
     const [hasSentMessage, setHasSentMessage] = useState(false);
 
     useEffect(() => {
-        // Shuffle and pick 4 random questions
+        // Shuffle and pick 2 random questions
         const shuffled = [...allMostAskedQuestions].sort(() => 0.5 - Math.random());
-        setMostAskedQuestions(shuffled.slice(0, 4));
+        setMostAskedQuestions(shuffled.slice(0, 2));
     }, []);
 
     const handleSendMessage = async (textToSend: string) => {
