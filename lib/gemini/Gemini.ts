@@ -14,7 +14,7 @@ GENERAL:
 - Email: kalikacampusbutwal@gmail.com
 - Stats: 45 teachers, 18 courses, approx. 1,700 students
 - NextGen Club: Technology-driven student club led by BCA students.
-- Developer: Bimal Pandey
+- Developer: Bimal Pandey and Anmol chhetri
 
 LEADERSHIP:
 - Chairperson: Hom Bahadur Galami
