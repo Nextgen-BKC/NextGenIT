@@ -9,6 +9,21 @@ export const metadata: Metadata = {
     title: "IT Skills Assessment Quiz",
     description: "Test your IT skills and join our community",
     type: "website",
+    url: "https://itclub-butwal.com/entrance",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 600,
+        alt: "IT Skills Assessment Quiz",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IT Skills Assessment Quiz",
+    description: "Test your IT and programming skills",
+    images: ["/logo.png"],
   },
 };
 

@@ -16,6 +16,21 @@ export const metadata: Metadata = {
     title: "Itclub Butwal Kalika Campus",
     description: "Learn IT, programming, and web development with our active community",
     type: "website",
+    url: "https://itclub-butwal.com",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 600,
+        alt: "Itclub Butwal Kalika Campus Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Itclub Butwal Kalika Campus",
+    description: "Learn IT, programming, and web development with our community",
+    images: ["/logo.png"],
   },
 };
 
