@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/logo.png",
   },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
   openGraph: {
     title: "Itclub Butwal Kalika Campus",
     description: "Learn IT, programming, and web development with our active community",
