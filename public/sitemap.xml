@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Home Page -->
   <url>
-    <loc>https://itclub-butwal.com</loc>
+    <loc>https://itclub.butwalkalikacampus.edu.np</loc>
     <lastmod>2026-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,7 +10,7 @@
 
   <!-- Entrance/Quiz Page -->
   <url>
-    <loc>https://itclub-butwal.com/entrance</loc>
+    <loc>https://itclub.butwalkalikacampus.edu.np/entrance</loc>
     <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -18,7 +18,7 @@
 
   <!-- Admin Login (noindex but included in sitemap for reference) -->
   <url>
-    <loc>https://itclub-butwal.com/admin/login</loc>
+    <loc>https://itclub.butwalkalikacampus.edu.np/admin/login</loc>
     <lastmod>2026-06-03</lastmod>
     <changefreq>never</changefreq>
     <priority>0.3</priority>

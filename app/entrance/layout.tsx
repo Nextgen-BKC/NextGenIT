@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "IT Skills Assessment Quiz",
     description: "Test your IT skills and join our community",
     type: "website",
-    url: "https://itclub-butwal.com/entrance",
+    url: "https://itclub.butwalkalikacampus.edu.np/entrance",
     images: [
       {
         url: "/logo.png",

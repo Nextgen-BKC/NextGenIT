@@ -17,4 +17,4 @@ User-agent: Bingbot
 Allow: /
 
 # Sitemap
-Sitemap: https://itclub-butwal.com/sitemap.xml
+Sitemap: https://itclub.butwalkalikacampus.edu.np/sitemap.xml

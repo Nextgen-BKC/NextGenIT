@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Itclub Butwal Kalika Campus",
     description: "Learn IT, programming, and web development with our active community",
     type: "website",
-    url: "https://itclub-butwal.com",
+    url: "https://itclub.butwalkalikacampus.edu.np",
     images: [
       {
         url: "/logo.png",

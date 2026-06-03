@@ -3,8 +3,8 @@ export function SchemaMarkup() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Itclub Butwal Kalika Campus",
-    "url": "https://itclub-butwal.com",
-    "logo": "https://itclub-butwal.com/logo.png",
+    "url": "https://itclub.butwalkalikacampus.edu.np",
+    "logo": "https://itclub.butwalkalikacampus.edu.np/logo.png",
     "description": "IT Club at Kalika Campus, Butwal - Learn programming, web development, and advance your IT skills",
     "address": {
       "@type": "PostalAddress",
@@ -23,7 +23,7 @@ export function SchemaMarkup() {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     "name": "Itclub Butwal Kalika Campus",
-    "url": "https://itclub-butwal.com",
+    "url": "https://itclub.butwalkalikacampus.edu.np",
     "description": "Learn IT skills and programming at our community",
     "educationalLevel": "Undergraduate",
     "alumniOf": "Kalika Campus"
