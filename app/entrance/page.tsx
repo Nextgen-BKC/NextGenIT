@@ -1,10 +1,16 @@
 "use client"
+import type { Metadata } from "next";
 import { useState, useEffect } from 'react';
 import { Timer, Brain, CircleCheckBig } from 'lucide-react';
 import QuizResults from '@/components/QuizResults';
 import { questions } from './_component/data';
 
-
+// SEO Metadata (only works in Server Components, but declared here for reference)
+export const metadata = {
+  title: "IT Knowledge Quiz - Test Your Skills | Itclub Butwal Kalika",
+  description: "Take our IT knowledge assessment quiz. Test your programming, web development, and tech skills. Perfect for students wanting to join Itclub Butwal.",
+  keywords: "IT quiz, programming quiz, web development assessment, coding test",
+};
 
 interface UserAnswers {
     [key: string]: string;

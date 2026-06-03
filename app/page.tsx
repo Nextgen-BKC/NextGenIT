@@ -1,4 +1,5 @@
 
+import type { Metadata } from "next";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Events from "@/components/Events";
@@ -7,7 +8,16 @@ import Hero from "@/components/Hero";
 import Members from "@/components/Members";
 import Navbar from "@/components/Navbar";
 
-
+export const metadata: Metadata = {
+  title: "Itclub Butwal Kalika Campus - Learn IT, Programming & Web Development",
+  description: "Join Itclub Butwal Kalika Campus community. Learn programming, web development, and advance your IT skills with experienced mentors and hands-on projects.",
+  keywords: "IT club, programming, web development, Butwal, Kalika campus, coding",
+  openGraph: {
+    title: "Itclub Butwal Kalika Campus",
+    description: "Learn IT, programming, and web development with our active community",
+    type: "website",
+  },
+};
 
 export default function Home() {
   return (
